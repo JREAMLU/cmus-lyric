@@ -5,10 +5,12 @@
 package main
 
 import (
-	"cmus-lyric/pkg"
-	ui "github.com/gizak/termui"
 	"log"
 	"time"
+
+	"github.com/JREAMLU/cmus-lyric/pkg"
+
+	ui "github.com/gizak/termui/v3"
 )
 
 func main() {

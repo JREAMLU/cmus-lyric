@@ -7,7 +7,6 @@ package pkg
 import (
 	"bytes"
 	"fmt"
-	ui "github.com/gizak/termui"
 	"io/ioutil"
 	"log"
 	"os/exec"
@@ -15,6 +14,9 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+
+	ui "github.com/gizak/termui/v3"
+	"github.com/gizak/termui/v3/widgets"
 )
 
 type CmusInfo struct {
@@ -147,11 +149,14 @@ func DrawComments() {
 
 func drawP(title string, buf *bytes.Buffer) {
 	ui.Clear()
-	p := ui.NewParagraph(buf.String())
+	termWidth, termHeight := ui.TerminalDimensions()
+	p := widgets.NewParagraph()
+	p.Text = buf.String()
+	p.Title = title
+	p.BorderStyle.Fg = ui.ColorWhite
+	p.BorderStyle.Bg = ui.ColorBlue
 	p.PaddingTop = 2
-	p.Height = ui.TermHeight()
-	p.Width = ui.TermWidth()
-	p.BorderLabel = "[" + title + "](fg-white,bg-blue)"
+	p.SetRect(0, 0, termWidth, termHeight)
 	p.Border = false
 	ui.Render(p)
 }
@@ -161,19 +166,20 @@ func drawEmpty() {
 }
 
 func drawL(list []string, cline int) {
-	height := ui.TermHeight()
-	ls := ui.NewList()
-	ls.BorderLabel = "[" + list[0] + "](fg-white,bg-blue)"
+	termWidth, termHeight := ui.TerminalDimensions()
+	ls := widgets.NewList()
+	ls.Title = list[0]
+	ls.BorderStyle.Fg = ui.ColorWhite
+	ls.BorderStyle.Bg = ui.ColorBlue
 	ls.PaddingTop = 2
-	ls.Height = height
-	ls.Width = ui.TermWidth()
+	ls.SetRect(0, 0, termWidth, termHeight)
 	ls.Border = false
 
 	idx := 1
-	if cline+2 > height {
+	if cline+2 > termHeight {
 		idx = cline - 1
 	}
-	ls.Items = list[idx:]
+	ls.Rows = list[idx:]
 	ui.Render(ls)
 }
 
@@ -207,7 +213,7 @@ func loadLyrics(path string) map[int][]string {
 	for k, v := range lyricMap {
 		t1 := v
 		t2 := tlyricMap[k]
-		m[k] = []string{t1, t2,}
+		m[k] = []string{t1, t2}
 	}
 	m[0] = []string{title, ""}
 	return m
