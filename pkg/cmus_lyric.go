@@ -162,7 +162,7 @@ func drawP(title string, buf *bytes.Buffer) {
 }
 
 func drawEmpty() {
-	drawL([]string{"", "[no lyrics](fg-red)"}, 0)
+	// drawL([]string{"", "[no lyrics](fg-red)"}, 0)
 }
 
 func drawL(list []string, cline int) {

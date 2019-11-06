@@ -18,8 +18,9 @@ import (
 )
 
 const (
-	LyricApi   = "http://music.163.com/weapi/song/lyric?csrf_token="
-	SearchApi  = "http://music.163.com/weapi/cloudsearch/get/web?csrf_token="
+	LyricApi = "http://music.163.com/weapi/song/lyric?csrf_token="
+	// SearchApi  = "http://music.163.com/weapi/cloudsearch/get/web?csrf_token="
+	SearchApi  = "http://music.163.com/weapi/search/get?csrf_token="
 	CommentApi = "http://music.163.com/weapi/v1/resource/comments/R_SO_4_%v/?csrf_token="
 	Cookie     = "os=pc; osver=Microsoft-Windows-10-Professional-build-10586-64bit; appver=2.0.3.131777; channel=netease; __remember_me=true"
 	UserAgent  = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36"
@@ -107,7 +108,6 @@ func FindId(name string, duration int) string {
 
 	resp, e := post(SearchApi, params, encSecKey)
 	if e != nil {
-		log.Println(e)
 		return ""
 	}
 
